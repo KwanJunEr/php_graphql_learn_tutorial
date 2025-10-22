@@ -1,0 +1,40 @@
+type Post {
+    id: ID!
+    user_id: Int!
+    title: String!
+    slug: String
+    content: String!
+}
+
+type Ads {
+    id: ID!
+    user_id: Int!
+    ads_title: String!
+    ads_slug: String
+    ads_description: String!
+    ads_price: Float!
+    ads_discount: Float
+    is_discount: Boolean!
+}
+
+type Query {
+    getPosts: [Post!]! @field(resolver: "PostQuery@get_all")
+    getAds: [Ads!]! @field(resolver: "AdsQuery@get_all")
+}
+
+type Mutation {
+    createPost(
+        user_id: Int!
+        title: String!
+        content: String!
+    ): Post @field(resolver: "App\\GraphQL\\Mutations\\PostMutator@create") 
+
+    createAds(
+        user_id: Int!
+        ads_title: String!
+        ads_description: String!
+        ads_price: Float!
+        ads_discount: Float
+        is_discount: Boolean!
+    ): Ads @field(resolver: "App\\GraphQL\\Mutations\\AdsMutator@create")
+}
