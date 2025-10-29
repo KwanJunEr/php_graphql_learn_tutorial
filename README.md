@@ -89,3 +89,7 @@ You can check or change it in config/lighthouse.php:</p>
   Lighthouse merges both results into one JSON response
  </li>
 </ol>
+
+
+<h1>How to Add in GraphQL into modules</h1>
+<p>Doument Link: https://docs.google.com/document/d/1eks0pFBePMDVdYc3KUz96izT_8e4CVs3l_Q-EIDuL1M/edit?usp=sharing </p>
