@@ -93,3 +93,131 @@ You can check or change it in config/lighthouse.php:</p>
 
 <h1>How to Add in GraphQL into modules</h1>
 <p>Doument Link: https://docs.google.com/document/d/1eks0pFBePMDVdYc3KUz96izT_8e4CVs3l_Q-EIDuL1M/edit?usp=sharing </p>
+
+<h1>Adding Names to GraphQL Playground to Test Different Functions</h1>
+<pre>
+ <code>
+  mutation create_tier{
+ firstTier: createTier(input: {
+    name: "Nice Tier",
+    description: "High-level membership",
+    tier_status: true,
+    conditions: [
+      { setting_tier_condition_id: 1, wallet_type_id: 1 },
+      { setting_tier_condition_id: 2, wallet_type_id: 2 }
+    ],
+    downgrade_condition: {
+      setting_tier_downgrade_condition_id: 4,
+      value: "2"
+    }
+  }) {
+    id
+    name
+    description
+  }
+
+  secondTier: createTier(input: {
+    name: "Tier Without Downgrade",
+    description: "High-level membership Lifetime",
+    tier_status: true,
+    conditions: [
+      { setting_tier_condition_id: 1, wallet_type_id: 1},
+      { setting_tier_condition_id: 2, wallet_type_id: 2}
+    ]
+  }) {
+    id
+    name
+    description
+  }
+}
+
+mutation login{
+  Login(input:{
+    email:"admin@webbygroup.com.my"
+    password:"password"
+  }){
+    data{
+      token
+    }
+  }
+}
+
+mutation updateTier{
+  updateTier(
+    id: 2
+    input: {name: "Awesome Tier", 
+      description: "Tier That is Awesome", 
+      tier_status: true, 
+      conditions: [
+        {setting_tier_condition_id: 2, wallet_type_id: 1},
+      	{setting_tier_condition_id: 1, wallet_type_id: 2}	
+      ],
+      downgrade_condition:{
+         setting_tier_downgrade_condition_id: 4,
+      	 value: "2"
+      }
+      sub_tiers:[
+          {
+      tier_id: 2,  # change this to your actual Tier ID
+      name: "Sub Tier A",
+      description: "Entry-level under Nice Tier",
+      level: 1,
+      conditions: [
+        { tier_condition_id: 5, setting_tier_condition_id: 1, value: 50.0 },
+        { tier_condition_id: 4, setting_tier_condition_id: 2, value: 100.0 }
+      ]
+    },
+    {
+      tier_id: 2,
+      name: "Sub Tier B",
+      description: "Next level under Nice Tier",
+      level: 2,
+      conditions: [
+        { tier_condition_id: 5, setting_tier_condition_id: 1, value: 150.0 },
+        { tier_condition_id: 4, setting_tier_condition_id: 2, value: 300.0 }
+      ]
+    }
+      ]
+    
+    
+    
+    }
+  ) {
+    id
+    name
+    description
+    tier_status
+    conditions {
+      id
+      wallet_type_id
+      setting {
+        id
+        name
+      }
+    }
+    downgradeCondition {
+      id
+      value
+      setting {
+        id
+        name
+      }
+    }
+    subTiers {
+      id
+      name
+      level
+      conditions {
+        id
+        value
+        setting {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+
+ </code>
+</pre>
